@@ -5,7 +5,9 @@ import coffeeDeliLogo from "../assets/coffee-delivery-logo.svg";
 export function Header() {
   return (
     <header className="flex items-center justify-between p-4 lg:py-8">
-      <img src={coffeeDeliLogo} alt="Coffee Delivery Logo" />
+      <NavLink to="/">
+        <img src={coffeeDeliLogo} alt="Coffee Delivery Logo" />
+      </NavLink>
       <nav className="flex items-center justify-between gap-3">
         <div className="flex items-center justify-between gap-1 bg-purple-light p-2 rounded-md">
           <MapPin size={22} weight="fill" className="text-purple" />
