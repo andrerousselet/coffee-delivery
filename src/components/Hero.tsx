@@ -9,10 +9,10 @@ export function Hero() {
           <h1 className="font-baloo text-3xl md:text-5xl leading-tight text-base-title font-extrabold">
             Encontre o café perfeito para qualquer hora do dia
           </h1>
-          <h2 className="text-lg md:text-xl leading-tight text-base-subtitle">
+          <h3 className="text-lg md:text-xl leading-tight text-base-subtitle">
             Com o Coffee Delivery você receber o seu café onde estiver, a
             qualquer hora
-          </h2>
+          </h3>
         </div>
         <div className="flex flex-col gap-5 items-center max-w-[567px] md:flex-row md:gap-10">
           <div className="flex flex-col gap-5 w-[294px] md:w-[231px]">

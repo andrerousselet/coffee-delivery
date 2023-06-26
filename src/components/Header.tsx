@@ -4,7 +4,7 @@ import coffeeDeliLogo from "../assets/coffee-delivery-logo.svg";
 
 export function Header() {
   return (
-    <header className="flex items-center justify-between p-4 lg:py-8">
+    <header className="max-w-6xl mx-auto flex items-center justify-between p-4 lg:py-8">
       <NavLink to="/">
         <img src={coffeeDeliLogo} alt="Coffee Delivery Logo" />
       </NavLink>
