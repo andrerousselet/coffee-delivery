@@ -7,8 +7,10 @@ interface CoffeeCardProps {
 }
 
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
-  const [qty, setQty] = useState<number>(0);
+  const [qty, setQty] = useState<number>(1);
   const { imgSrc, tags, title, description, price } = coffee;
+
+  const formattedPrice = String((price / 100).toFixed(2)).replace(".", ",");
 
   return (
     <div className="px-6 pb-5 flex flex-col items-center w-64 h-80 bg-base-card rounded-md rounded-tr-3xl rounded-bl-3xl">
@@ -33,7 +35,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
         <div>
           <span className="text-sm text-base-text mr-1">R$</span>
           <span className="text-xl text-base-text font-extrabold font-baloo">
-            {price}
+            {formattedPrice}
           </span>
         </div>
         <form className="flex items-center gap-2">
@@ -41,7 +43,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
             <button
               type="button"
               onClick={() =>
-                setQty((prevQty) => (prevQty === 0 ? 0 : prevQty - 1))
+                setQty((prevQty) => (prevQty === 1 ? 1 : prevQty - 1))
               }
             >
               <Minus size={14} className="text-purple hover:text-purple-dark" />
