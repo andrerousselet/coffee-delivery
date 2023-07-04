@@ -21,6 +21,7 @@ export default {
       "purple-dark": "#4B2995",
       "purple": "#8047F8",
       "purple-light": "#EBE5F9",
+      "white": "#FFFFFF",
 
       "background": "#FAFAFA",
       "base-title": "#272221",

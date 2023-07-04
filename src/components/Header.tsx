@@ -16,12 +16,17 @@ export function Header() {
           </span>
         </div>
         <NavLink to="cart">
-          <div className="bg-yellow-light flex items-center justify-center rounded-md p-2">
+          <div className="bg-yellow-light flex items-center justify-center rounded-md p-2 relative">
             <ShoppingCart
               size={22}
               weight="fill"
               className="text-yellow-dark"
             />
+            <div className="absolute w-5 h-5 rounded-full bg-yellow-dark -top-2.5 -right-2.5 flex items-center justify-center">
+              <span className="text-xs font-bold text-white text-center">
+                1
+              </span>
+            </div>
           </div>
         </NavLink>
       </nav>
