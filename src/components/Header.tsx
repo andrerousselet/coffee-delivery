@@ -1,8 +1,16 @@
 import { NavLink } from "react-router-dom";
 import { ShoppingCart, MapPin } from "@phosphor-icons/react";
 import coffeeDeliLogo from "../assets/coffee-delivery-logo.svg";
+import { useCoffeeCart } from "../hooks/useCoffeeCart";
 
 export function Header() {
+  const { coffeeCart } = useCoffeeCart();
+
+  const cartCounter = coffeeCart.reduce(
+    (acc, currCoffee) => acc + currCoffee.qty,
+    0
+  );
+
   return (
     <header className="max-w-6xl mx-auto flex items-center justify-between p-4 lg:py-8">
       <NavLink to="/">
@@ -22,11 +30,13 @@ export function Header() {
               weight="fill"
               className="text-yellow-dark"
             />
-            <div className="absolute w-5 h-5 rounded-full bg-yellow-dark -top-2.5 -right-2.5 flex items-center justify-center">
-              <span className="text-xs font-bold text-white text-center">
-                1
-              </span>
-            </div>
+            {cartCounter !== 0 && (
+              <div className="absolute w-5 h-5 rounded-full bg-yellow-dark -top-2 -right-2 flex items-center justify-center">
+                <span className="text-xs font-bold text-white text-center">
+                  {cartCounter}
+                </span>
+              </div>
+            )}
           </div>
         </NavLink>
       </nav>
