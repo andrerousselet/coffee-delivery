@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { Minus, Plus, ShoppingCart } from "@phosphor-icons/react";
 import { Coffee } from "../utils/coffeeData";
+import { useCoffeeCart } from "../hooks/useCoffeeCart";
 
 interface CoffeeCardProps {
   coffee: Coffee;
@@ -8,7 +9,13 @@ interface CoffeeCardProps {
 
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
   const [qty, setQty] = useState<number>(1);
+  const { addCoffeeToCart } = useCoffeeCart();
   const { imgSrc, tags, title, description, price } = coffee;
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    addCoffeeToCart(coffee, qty);
+  }
 
   const formattedPrice = String((price / 100).toFixed(2)).replace(".", ",");
 
@@ -38,7 +45,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
             {formattedPrice}
           </span>
         </div>
-        <form className="flex items-center gap-2">
+        <form onSubmit={handleSubmit} className="flex items-center gap-2">
           <div className="p-2 rounded-md bg-base-button flex items-center gap-1">
             <button
               type="button"

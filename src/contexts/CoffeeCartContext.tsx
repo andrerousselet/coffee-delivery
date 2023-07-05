@@ -16,10 +16,10 @@ export function CoffeeCartProvider({ children }: CoffeeCartProviderProps) {
   const [coffeeCart, setCoffeeCart] = useState<Coffee[]>([]);
 
   function addCoffeeToCart(coffee: Coffee, qty: number) {
-    const addedCoffee = { ...coffee, qty };
+    const updatedCoffee = { ...coffee, qty };
     setCoffeeCart((prevCart) => [
-      ...prevCart.filter((oldCoffee) => oldCoffee.id !== coffee.id),
-      addedCoffee,
+      ...prevCart.filter((coffeeToUpdate) => coffeeToUpdate.id !== coffee.id),
+      updatedCoffee,
     ]);
   }
 
