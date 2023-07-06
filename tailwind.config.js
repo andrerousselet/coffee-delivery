@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 import defaultTheme from "tailwindcss/defaultTheme";
+import tailwindCssForms from "@tailwindcss/forms";
 
 export default {
   content: [
@@ -34,5 +35,5 @@ export default {
       "base-card": "#F3F2F2",
     }
   },
-  plugins: [],
+  plugins: [tailwindCssForms()],
 }
