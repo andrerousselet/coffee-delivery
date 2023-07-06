@@ -13,7 +13,10 @@ export function Header() {
 
   return (
     <header className="max-w-6xl mx-auto flex items-center justify-between p-4 lg:py-8">
-      <NavLink to="/">
+      <NavLink
+        to="/"
+        className="rounded focus:outline-none focus:ring-1 focus:ring-offset-4 focus:ring-purple"
+      >
         <img src={coffeeDeliLogo} alt="Coffee Delivery Logo" />
       </NavLink>
       <nav className="flex items-center justify-between gap-3">
@@ -23,7 +26,10 @@ export function Header() {
             Rio de Janeiro, RJ
           </span>
         </div>
-        <NavLink to="cart">
+        <NavLink
+          to="cart"
+          className="rounded-md focus:outline-none focus:ring-1 focus:ring-yellow-dark"
+        >
           <div className="bg-yellow-light flex items-center justify-center rounded-md p-2 relative">
             <ShoppingCart
               size={22}
