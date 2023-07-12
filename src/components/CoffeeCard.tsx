@@ -20,7 +20,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
   const formattedPrice = String((price / 100).toFixed(2)).replace(".", ",");
 
   return (
-    <div className="px-6 pb-5 flex flex-col items-center w-64 h-80 bg-base-card rounded-md rounded-tr-3xl rounded-bl-3xl">
+    <div className="px-5 pb-5 flex flex-col items-center w-64 h-80 bg-base-card rounded-md rounded-tr-3xl rounded-bl-3xl">
       <img src={imgSrc} alt="Expresso Tradicional" className="-mt-5 mb-3" />
       <div className="mb-4 flex gap-1">
         {tags.map((tag) => (
@@ -35,7 +35,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
       <h4 className="font-baloo text-xl font-bold text-base-subtitle mb-2">
         {title}
       </h4>
-      <p className="text-sm text-base-label w-52 text-center mb-8">
+      <p className="text-sm text-base-label w-full text-center mb-8">
         {description}
       </p>
       <div className="flex items-center justify-between w-full">
