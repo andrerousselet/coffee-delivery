@@ -27,7 +27,7 @@ export function Header() {
           </span>
         </div>
         <NavLink
-          to="cart"
+          to="checkout"
           className="rounded-md focus:outline-none focus:ring-1 focus:ring-yellow-dark"
         >
           <div className="bg-yellow-light flex items-center justify-center rounded-md p-2 relative">
