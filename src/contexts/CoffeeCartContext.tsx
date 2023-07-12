@@ -4,6 +4,7 @@ import { Coffee } from "../utils/coffeeData";
 interface CoffeeCartContextType {
   coffeeCart: Coffee[];
   addCoffeeToCart: (coffee: Coffee, qty: number) => void;
+  removeCoffeeFromCart: (coffee: number) => void;
 }
 
 export const CoffeeCartContext = createContext({} as CoffeeCartContextType);
@@ -23,8 +24,16 @@ export function CoffeeCartProvider({ children }: CoffeeCartProviderProps) {
     ]);
   }
 
+  function removeCoffeeFromCart(coffeeId: number) {
+    setCoffeeCart((prevCart) =>
+      prevCart.filter((coffeeToRemove) => coffeeToRemove.id !== coffeeId)
+    );
+  }
+
   return (
-    <CoffeeCartContext.Provider value={{ coffeeCart, addCoffeeToCart }}>
+    <CoffeeCartContext.Provider
+      value={{ coffeeCart, addCoffeeToCart, removeCoffeeFromCart }}
+    >
       {children}
     </CoffeeCartContext.Provider>
   );

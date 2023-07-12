@@ -11,6 +11,7 @@ import {
   SpinnerGap,
 } from "@phosphor-icons/react";
 import { fetchAddressInfo } from "../utils/fetchAddressInfo";
+import { OrderSummary } from "../components/OrderSummary";
 
 enum PaymentOptions {
   credit = "Cartão de Crédito",
@@ -175,7 +176,7 @@ export function Checkout() {
                 />
                 <label
                   htmlFor={PaymentOptions.credit}
-                  className="flex items-center gap-3 p-4 rounded-md border-none bg-base-button hover:bg-base-hover transition focus:outline-none focus:ring-2 focus:ring-purple focus:bg-purple-light peer-checked:bg-purple-light"
+                  className="flex items-center gap-3 p-4 rounded-md border-none bg-base-button hover:bg-base-hover transition focus:outline-none peer-checked:ring-2 peer-checked:ring-purple peer-checked:bg-purple-light"
                 >
                   <CreditCard size={16} className="text-purple" />
                   <span className="text-xs leading-6 text-base-text uppercase">
@@ -193,7 +194,7 @@ export function Checkout() {
                 />
                 <label
                   htmlFor={PaymentOptions.debit}
-                  className="flex items-center gap-3 p-4 rounded-md border-none bg-base-button hover:bg-base-hover transition focus:outline-none focus:ring-2 focus:ring-purple focus:bg-purple-light peer-checked:bg-purple-light"
+                  className="flex items-center gap-3 p-4 rounded-md border-none bg-base-button hover:bg-base-hover transition focus:outline-none peer-checked:ring-2 peer-checked:ring-purple peer-checked:bg-purple-light"
                 >
                   <Bank size={16} className="text-purple" />
                   <span className="text-xs leading-6 text-base-text uppercase">
@@ -211,7 +212,7 @@ export function Checkout() {
                 />
                 <label
                   htmlFor={PaymentOptions.money}
-                  className="flex items-center gap-3 p-4 rounded-md border-none bg-base-button hover:bg-base-hover transition focus:outline-none focus:ring-2 focus:ring-purple focus:bg-purple-light peer-checked:bg-purple-light"
+                  className="flex items-center gap-3 p-4 rounded-md border-none bg-base-button hover:bg-base-hover transition focus:outline-none peer-checked:ring-2 peer-checked:ring-purple peer-checked:bg-purple-light"
                 >
                   <Money size={16} className="text-purple" />
                   <span className="text-xs leading-6 text-base-text uppercase">
@@ -222,6 +223,7 @@ export function Checkout() {
             </div>
           </div>
         </div>
+        <OrderSummary />
       </div>
     </main>
   );
