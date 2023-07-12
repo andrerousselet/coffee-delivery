@@ -12,21 +12,36 @@ import {
 } from "@phosphor-icons/react";
 import { fetchAddressInfo } from "../utils/fetchAddressInfo";
 
+enum PaymentOptions {
+  credit = "Cartão de Crédito",
+  debit = "Cartão de Débito",
+  money = "Dinheiro",
+}
+
 const addressFormSchema = z.object({
-  zipcode: z.number().describe("Digite apenas números").min(8).max(8),
+  zipcode: z.number().min(8).max(8),
   street: z.string(),
   number: z.number(),
   complement: z.string().optional(),
   district: z.string(),
   city: z.string(),
   uf: z.string().toUpperCase(),
+  payment: z.nativeEnum(PaymentOptions),
 });
 
 type AddressFormData = z.infer<typeof addressFormSchema>;
 
-export function Cart() {
+export function Checkout() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { register, setValue, setFocus, reset } = useForm<AddressFormData>({
+  const {
+    register,
+    setValue,
+    setFocus,
+    reset,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm<AddressFormData>({
     resolver: zodResolver(addressFormSchema),
   });
 
@@ -34,21 +49,21 @@ export function Cart() {
     const zipcode = e.target.value;
     try {
       if (zipcode) {
+        clearErrors();
         setIsLoading(true);
         const address = await fetchAddressInfo(zipcode);
-        if (address) {
-          setValue("street", address.logradouro);
-          setValue("district", address.bairro);
-          setValue("city", address.localidade);
-          setValue("uf", address.uf);
-          setFocus("number");
-          setIsLoading(false);
-        }
+        setValue("street", address.logradouro);
+        setValue("district", address.bairro);
+        setValue("city", address.localidade);
+        setValue("uf", address.uf);
+        setFocus("number");
       } else {
         reset();
       }
     } catch (error) {
       console.error(error);
+      reset();
+      setError("zipcode", { type: "pattern", message: "CEP inválido!" });
     } finally {
       setIsLoading(false);
     }
@@ -74,15 +89,18 @@ export function Cart() {
               </div>
             </div>
             <form className="flex flex-col gap-4">
-              <div className="flex items-center relative w-fit">
+              <div className="flex items-center gap-1 relative w-fit">
                 <input
                   type="text"
-                  placeholder="CEP"
+                  placeholder={errors.zipcode ? errors.zipcode.message : "CEP"}
                   {...register("zipcode", {
                     valueAsNumber: true,
                     onBlur: getAddressInfo,
                   })}
-                  className="w-[200px] p-3 rounded h-10 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-dark placeholder:text-sm placeholder:text-base-label bg-base-input text-base-text border border-base-button focus:border-base-button"
+                  className={`w-[200px] p-3 rounded h-10 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-dark placeholder:text-sm placeholder:text-base-label bg-base-input text-base-text border border-base-button focus:border-base-button ${
+                    errors.zipcode &&
+                    `border-red-error placeholder:text-red-error bg-red-light-error`
+                  }`}
                 />
                 {isLoading && (
                   <SpinnerGap
@@ -147,31 +165,60 @@ export function Cart() {
               </div>
             </div>
             <div className="flex gap-3">
-              <button
-                type="button"
-                className="flex items-center gap-3 p-4 rounded-md border-none w-1/3 bg-base-button hover:bg-base-hover transition focus:outline-none focus:ring-2 focus:ring-purple focus:bg-purple-light"
-              >
-                <CreditCard size={16} className="text-purple" />
-                <p className="text-xs leading-6 text-base-text">
-                  CARTÃO DE CRÉDITO
-                </p>
-              </button>
-              <button
-                type="button"
-                className="flex items-center gap-3 p-4 rounded-md border-none w-1/3 bg-base-button hover:bg-base-hover transition focus:outline-none focus:ring-2 focus:ring-purple focus:bg-purple-light"
-              >
-                <Bank size={16} className="text-purple" />
-                <p className="text-xs leading-6 text-base-text">
-                  CARTÃO DE DÉDITO
-                </p>
-              </button>
-              <button
-                type="button"
-                className="flex items-center gap-3 p-4 rounded-md border-none w-1/3 bg-base-button hover:bg-base-hover transition focus:outline-none focus:ring-2 focus:ring-purple focus:bg-purple-light"
-              >
-                <Money size={16} className="text-purple" />
-                <p className="text-xs leading-6 text-base-text">DINHEIRO</p>
-              </button>
+              <div className="w-1/3">
+                <input
+                  type="radio"
+                  id={PaymentOptions.credit}
+                  value={PaymentOptions.credit}
+                  {...register("payment")}
+                  className="hidden peer"
+                />
+                <label
+                  htmlFor={PaymentOptions.credit}
+                  className="flex items-center gap-3 p-4 rounded-md border-none bg-base-button hover:bg-base-hover transition focus:outline-none focus:ring-2 focus:ring-purple focus:bg-purple-light peer-checked:bg-purple-light"
+                >
+                  <CreditCard size={16} className="text-purple" />
+                  <span className="text-xs leading-6 text-base-text uppercase">
+                    {PaymentOptions.credit}
+                  </span>
+                </label>
+              </div>
+              <div className="w-1/3">
+                <input
+                  type="radio"
+                  id={PaymentOptions.debit}
+                  value={PaymentOptions.debit}
+                  {...register("payment")}
+                  className="hidden peer"
+                />
+                <label
+                  htmlFor={PaymentOptions.debit}
+                  className="flex items-center gap-3 p-4 rounded-md border-none bg-base-button hover:bg-base-hover transition focus:outline-none focus:ring-2 focus:ring-purple focus:bg-purple-light peer-checked:bg-purple-light"
+                >
+                  <Bank size={16} className="text-purple" />
+                  <span className="text-xs leading-6 text-base-text uppercase">
+                    {PaymentOptions.debit}
+                  </span>
+                </label>
+              </div>
+              <div className="w-1/3">
+                <input
+                  type="radio"
+                  id={PaymentOptions.money}
+                  value={PaymentOptions.money}
+                  {...register("payment")}
+                  className="hidden peer"
+                />
+                <label
+                  htmlFor={PaymentOptions.money}
+                  className="flex items-center gap-3 p-4 rounded-md border-none bg-base-button hover:bg-base-hover transition focus:outline-none focus:ring-2 focus:ring-purple focus:bg-purple-light peer-checked:bg-purple-light"
+                >
+                  <Money size={16} className="text-purple" />
+                  <span className="text-xs leading-6 text-base-text uppercase">
+                    {PaymentOptions.money}
+                  </span>
+                </label>
+              </div>
             </div>
           </div>
         </div>
