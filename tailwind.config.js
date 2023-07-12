@@ -23,6 +23,8 @@ export default {
       "purple": "#8047F8",
       "purple-light": "#EBE5F9",
       "white": "#FFFFFF",
+      "red-error": "#B91C1C",
+      "red-light-error": "#FFE4E6",
 
       "background": "#FAFAFA",
       "base-title": "#272221",
