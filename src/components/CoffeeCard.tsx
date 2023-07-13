@@ -2,6 +2,7 @@ import { useState, FormEvent } from "react";
 import { Minus, Plus, ShoppingCart } from "@phosphor-icons/react";
 import { Coffee } from "../utils/coffeeData";
 import { useCoffeeCart } from "../hooks/useCoffeeCart";
+import { formatPrice } from "../utils/formatPrice";
 
 interface CoffeeCardProps {
   coffee: Coffee;
@@ -15,9 +16,8 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     addCoffeeToCart(coffee, qty);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
-
-  const formattedPrice = String((price / 100).toFixed(2)).replace(".", ",");
 
   return (
     <div className="px-5 pb-5 flex flex-col items-center w-64 h-80 bg-base-card rounded-md rounded-tr-3xl rounded-bl-3xl">
@@ -42,7 +42,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
         <div>
           <span className="text-sm text-base-text mr-1">R$</span>
           <span className="text-xl text-base-text font-extrabold font-baloo">
-            {formattedPrice}
+            {formatPrice(price)}
           </span>
         </div>
         <form onSubmit={handleSubmit} className="flex items-center gap-2">

@@ -1,6 +1,7 @@
 import { Minus, Plus, Trash } from "@phosphor-icons/react";
 import { Coffee } from "../utils/coffeeData";
 import { useCoffeeCart } from "../hooks/useCoffeeCart";
+import { formatPrice } from "../utils/formatPrice";
 
 interface CoffeeCartItemProps {
   coffee: Coffee;
@@ -10,10 +11,8 @@ export function CoffeeCartItem({ coffee }: CoffeeCartItemProps) {
   const { removeCoffeeFromCart } = useCoffeeCart();
   const { title, price, qty } = coffee;
 
-  const formattedPrice = String((price / 100).toFixed(2)).replace(".", ",");
-
   return (
-    <div className="flex items-start justify-between">
+    <div className="flex items-start justify-between pb-6 border-b border-b-base-button">
       <div className="flex items-center gap-5">
         <img src={coffee.imgSrc} alt={title} className="w-16 h-16" />
         <div className="flex flex-col gap-2">
@@ -55,7 +54,9 @@ export function CoffeeCartItem({ coffee }: CoffeeCartItemProps) {
           </div>
         </div>
       </div>
-      <span className="font-bold text-base-text">R$ {formattedPrice}</span>
+      <span className="font-bold text-base-text">
+        R$ {formatPrice(price * qty)}
+      </span>
     </div>
   );
 }
