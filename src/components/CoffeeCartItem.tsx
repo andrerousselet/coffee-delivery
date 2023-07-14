@@ -2,14 +2,20 @@ import { Minus, Plus, Trash } from "@phosphor-icons/react";
 import { Coffee } from "../utils/coffeeData";
 import { useCoffeeCart } from "../hooks/useCoffeeCart";
 import { formatPrice } from "../utils/formatPrice";
+import { useEffect, useState } from "react";
 
 interface CoffeeCartItemProps {
   coffee: Coffee;
 }
 
 export function CoffeeCartItem({ coffee }: CoffeeCartItemProps) {
-  const { removeCoffeeFromCart } = useCoffeeCart();
+  const { removeCoffeeFromCart, updateCoffeeOnCart } = useCoffeeCart();
   const { title, price, qty } = coffee;
+  const [newQty, setNewQty] = useState<number>(qty);
+
+  useEffect(() => {
+    updateCoffeeOnCart(coffee, newQty);
+  }, [newQty, coffee, updateCoffeeOnCart]);
 
   return (
     <div className="flex items-start justify-between pb-6 border-b border-b-base-button">
@@ -21,9 +27,9 @@ export function CoffeeCartItem({ coffee }: CoffeeCartItemProps) {
             <div className="p-2 rounded-md bg-base-button flex items-center gap-1">
               <button
                 type="button"
-                // onClick={() =>
-                //   setQty((prevQty) => (prevQty === 1 ? 1 : prevQty - 1))
-                // }
+                onClick={() =>
+                  setNewQty((prevQty) => (prevQty === 1 ? 1 : prevQty - 1))
+                }
               >
                 <Minus
                   size={14}
@@ -35,7 +41,7 @@ export function CoffeeCartItem({ coffee }: CoffeeCartItemProps) {
               </span>
               <button
                 type="button"
-                // onClick={() => setQty((prevQty) => prevQty + 1)}
+                onClick={() => setNewQty((prevQty) => prevQty + 1)}
               >
                 <Plus
                   size={14}
