@@ -3,7 +3,7 @@ import { Coffee } from "../utils/coffeeData";
 
 interface CoffeeCartContextType {
   coffeeCart: Coffee[];
-  addCoffeeToCart: (coffee: Coffee, qty: number) => void;
+  updateCoffeeOnCart: (coffee: Coffee, qty: number) => void;
   removeCoffeeFromCart: (coffee: number) => void;
 }
 
@@ -16,23 +16,34 @@ interface CoffeeCartProviderProps {
 export function CoffeeCartProvider({ children }: CoffeeCartProviderProps) {
   const [coffeeCart, setCoffeeCart] = useState<Coffee[]>([]);
 
-  function addCoffeeToCart(coffee: Coffee, qty: number) {
-    const updatedCoffee = { ...coffee, qty };
-    setCoffeeCart((prevCart) => [
-      ...prevCart.filter((coffeeToUpdate) => coffeeToUpdate.id !== coffee.id),
-      updatedCoffee,
-    ]);
+  function updateCoffeeOnCart(coffee: Coffee, qty: number) {
+    const coffeeToUpdate = coffeeCart.find(
+      (coffeeOnCart) => coffeeOnCart.id === coffee.id
+    );
+    setCoffeeCart((prevCart) => {
+      if (!coffeeToUpdate) return [...prevCart, { ...coffee, qty }];
+
+      const updatedCart = prevCart.map((coffeeOnCart) => {
+        if (coffeeOnCart.id === coffee.id) return { ...coffee, qty };
+        return coffeeOnCart;
+      });
+      return updatedCart;
+    });
   }
 
   function removeCoffeeFromCart(coffeeId: number) {
     setCoffeeCart((prevCart) =>
-      prevCart.filter((coffeeToRemove) => coffeeToRemove.id !== coffeeId)
+      prevCart.filter((coffeeOnCart) => coffeeOnCart.id !== coffeeId)
     );
   }
 
   return (
     <CoffeeCartContext.Provider
-      value={{ coffeeCart, addCoffeeToCart, removeCoffeeFromCart }}
+      value={{
+        coffeeCart,
+        removeCoffeeFromCart,
+        updateCoffeeOnCart,
+      }}
     >
       {children}
     </CoffeeCartContext.Provider>

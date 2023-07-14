@@ -10,12 +10,12 @@ interface CoffeeCardProps {
 
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
   const [qty, setQty] = useState<number>(1);
-  const { addCoffeeToCart } = useCoffeeCart();
+  const { updateCoffeeOnCart } = useCoffeeCart();
   const { imgSrc, tags, title, description, price } = coffee;
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    addCoffeeToCart(coffee, qty);
+    updateCoffeeOnCart(coffee, qty);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
