@@ -5,10 +5,13 @@ import { CoffeeCartItem } from "./CoffeeCartItem";
 export function OrderSummary() {
   const { coffeeCart } = useCoffeeCart();
 
-  const totalPrice = coffeeCart.reduce(
+  const isCoffeeCartEmpty = coffeeCart.length === 0;
+  const subTotalPrice = coffeeCart.reduce(
     (acc, currCoffee) => acc + currCoffee.qty * currCoffee.price,
     0
   );
+  const shippingPrice = isCoffeeCartEmpty ? 0 : 350;
+  const totalPrice = subTotalPrice + shippingPrice;
 
   return (
     <div className="flex flex-col">
@@ -21,22 +24,25 @@ export function OrderSummary() {
             <CoffeeCartItem key={coffee.id} coffee={coffee} />
           ))}
         </div>
-        <div className="pt-6 flex flex-col gap-3">
+        <div className={`${!isCoffeeCartEmpty && "pt-6"} flex flex-col gap-3`}>
           <p className="flex items-center justify-between text-base-text">
             <span className="text-sm">Total de itens</span>
-            <span>R$ {formatPrice(totalPrice)}</span>
+            <span>R$ {formatPrice(subTotalPrice)}</span>
           </p>
           <p className="flex items-center justify-between text-base-text">
             <span className="text-sm">Entrega</span>
-            <span>R$ {formatPrice(350)}</span>
+            <span>R$ {formatPrice(shippingPrice)}</span>
           </p>
           <p className="flex items-center justify-between text-xl text-base-subtitle font-bold">
             <span>Total</span>
-            <span>R$ {formatPrice(totalPrice + 350)}</span>
+            <span>R$ {formatPrice(totalPrice)}</span>
           </p>
         </div>
         <div className="pt-6">
-          <button className="w-full rounded-md bg-yellow hover:bg-yellow-dark px-2 py-3 text-white text-sm leading-6 uppercase transition">
+          <button
+            disabled={isCoffeeCartEmpty}
+            className="w-full rounded-md bg-yellow hover:bg-yellow-dark px-2 py-3 text-white text-sm leading-6 uppercase transition disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-yellow-dark"
+          >
             Confirmar Pedido
           </button>
         </div>
